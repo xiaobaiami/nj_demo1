@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>课程添加</title>
+
+    <link th:href="@{/bootstrap/css/bootstrap.css}" rel="stylesheet">
+    <script th:src="@{/bootstrap/js/bootstrap.bundle.min.js}"></script>
+    <style>
+        .bd-placeholder-img {
+            font-size: 1.125rem;
+            text-anchor: middle;
+        }
+
+        @media (min-width: 768px) {
+            .bd-placeholder-img-lg {
+                font-size: 3.5rem;
+            }
+        }
+    </style>
+    <!-- Custom styles for this template -->
+    <link th:href="@{/bootstrap/css/signin.css}" rel="stylesheet">
+</head>
+<body class="text-center">
+<form class="form-signin" th:action="@{/admin/course/add_course}" method="post">
+    <img class="mb-4" th:src="@{/favicon.ico}" alt="" width="72" height="72">
+    <h1 class="h3 mb-3 font-weight-normal">课程添加</h1>
+    <div id="msg" th:text="${msg}" th:if="${msg} != null" style="color: red;"></div>
+    <label class="sr-only">课程名称</label>
+    <input id="name" type="text" class="form-control" placeholder="课程名称" required autofocus name="name">
+    <select id="year" name="year" class="custom-select d-block w-100" required="required" style="margin: auto">
+        <option value="2019">2019</option>
+        <option value="2020">2020</option>
+    </select>
+    <label class="sr-only">课程名称</label>
+    <input type="text" class="form-control" placeholder="上课人数" required autofocus name="limit">
+    <button class="btn btn-lg btn-primary btn-block" type="submit">添加</button>
+    <a th:href="@{/course.html}">返回课程页面</a>
+</form>
+</body>
+<script th:src="@{/bootstrap/js/jquery-3.3.1.slim.min.js}"></script>
+
+</html>

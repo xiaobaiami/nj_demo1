@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>我的作业</title>
+
+    <!-- Bootstrap core CSS -->
+    <link th:href="@{/bootstrap/css/bootstrap.css}" rel="stylesheet">
+    <style>
+        .bd-placeholder-img {
+            font-size: 1.125rem;
+            text-anchor: middle;
+        }
+
+        @media (min-width: 768px) {
+            .bd-placeholder-img-lg {
+                font-size: 3.5rem;
+            }
+        }
+
+    </style>
+    <!-- Custom styles for this template -->
+    <link th:href="@{/bootstrap/css/dashboard.css}" rel="stylesheet">
+
+</head>
+<body>
+<div th:replace="commons/navbar::nav_top"></div>
+
+<div class="container-fluid">
+    <div class="row">
+        <div th:replace="commons/navbar::nav_side(activeUri='/my_hw.html')"></div>
+
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <h1 class="h2">作业列表</h1>
+            </div>
+            <!--<p id="msg" th:text="${msg}" style="color: red" th:if="${msg}!='选课成功'"></p>-->
+            <!--<p id="msg" th:text="${msg}" style="color: green" th:if="${msg}=='选课成功'"></p>-->
+            <div th:each="h:${my_hw}">
+                <label>题目:</label>
+                <a th:text="${h.title}" th:href="@{/homework/solve(h_id=${h.h_id})}"></a>
+                <label>&nbsp;&nbsp;&nbsp;&nbsp;截止时间：</label>
+                <span th:text="${h.limit_date}"></span>
+                <p th:text="${h.body}"></p>
+                <hr>
+            </div>
+        </main>
+    </div>
+</div>
+<script th:src="@{/bootstrap/js/jquery-1.11.3.min.js}"></script>
+<script>window.jQuery || document.write('<script th:src="@{/bootstrap/js/jquery-slim.min.js}"><\/script>')</script>
+<script th:src="@{/bootstrap/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/bootstrap/js/feather.min.js}"></script>
+<script th:src="@{/bootstrap/js/Chart.min.js}"></script>
+<script th:src="@{/bootstrap/js/dashboard.js}"></script>
+<script>
+
+</script>
+</body>
+</html>

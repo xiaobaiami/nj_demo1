@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>课程</title>
+
+    <!-- Bootstrap core CSS -->
+    <link th:href="@{/bootstrap/css/bootstrap.css}" rel="stylesheet">
+    <style>
+        .bd-placeholder-img {
+            font-size: 1.125rem;
+            text-anchor: middle;
+        }
+
+        @media (min-width: 768px) {
+            .bd-placeholder-img-lg {
+                font-size: 3.5rem;
+            }
+        }
+
+    </style>
+    <!-- Custom styles for this template -->
+    <link th:href="@{/bootstrap/css/dashboard.css}" rel="stylesheet">
+
+</head>
+<body>
+<div th:replace="commons/navbar::nav_top"></div>
+
+<div class="container-fluid">
+    <div class="row">
+        <div th:replace="commons/navbar::nav_side(activeUri='course.html')"></div>
+
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <h1 class="h2">课程列表</h1>
+            </div>
+            <a th:href="@{/course_add.html}">添加课程</a>
+            <p id="msg" th:text="${msg}" style="color: red" th:if="${msg}!='选课成功'"></p>
+            <p id="msg" th:text="${msg}" style="color: green" th:if="${msg}=='选课成功'"></p>
+            <div data-toggle="buttons" style="width: 80%">
+                <select id="year" class="custom-select d-block" style="width: 10%">
+                    <option value="all">全部</option>
+                    <option value="2020">2020</option>
+                    <option value="2019">2019</option>
+                    <option value="2018">2018</option>
+                </select>
+                <p></p>
+            </div>
+
+
+            <div class="table-responsive">
+                <table class="table table-striped table-sm">
+                    <thead>
+                    <tr>
+                        <th>编号</th>
+                        <th>名称</th>
+                        <th>年度</th>
+                        <th>人数限定</th>
+                        <th>状态</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody id="course_list">
+                    <!--<tr>-->
+                    <!--<td>1,001</td>-->
+                    <!--<td>Lorem</td>-->
+                    <!--<td>ipsum</td>-->
+                    <!--<td>dolor</td>-->
+                    <!--<td>sit</td>-->
+                    <!--</tr>-->
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+</div>
+<script th:src="@{/bootstrap/js/jquery-1.11.3.min.js}"></script>
+<script>window.jQuery || document.write('<script th:src="@{/bootstrap/js/jquery-slim.min.js}"><\/script>')</script>
+<script th:src="@{/bootstrap/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/bootstrap/js/feather.min.js}"></script>
+<script th:src="@{/bootstrap/js/Chart.min.js}"></script>
+<script th:src="@{/bootstrap/js/dashboard.js}"></script>
+<script>
+
+    $(document).ready(function () {
+        $.ajax({
+            url: "/course/list",
+            type: "GET",
+            data: {year: 'all'},
+            timeout: 3000,
+            success: function (data) {
+                fill_date($("#course_list"), data);
+            },
+            error: function (xhr, errorInfo, ex) {
+                alert("请求失败!");
+            },
+            async: true
+        });
+    });
+
+    $("#year").change(function () {
+        $.ajax({
+            url: "/course/list",
+            type: "GET",
+            data: {year: $("#year").val()},
+            timeout: 3000,
+            success: function (data) {
+                fill_date($("#course_list"), data);
+            },
+            error: function (xhr, errorInfo, ex) {
+                alert("请求失败!");
+            },
+            async: true
+        });
+    });
+
+
+    function fill_date(dom, data) {
+        var trs = "";
+        for (var i = 0; i < data.length; i++) {
+            trs += '<tr>';
+            trs += '<td>' + data[i].c_id + '</td>\n';
+            trs += '<td>' + data[i].name + '</td>\n';
+            trs += '<td>' + data[i].year + '</td>\n';
+            trs += '<td>' + data[i].limit + '</td>\n';
+            trs += '<td>' + data[i].state + '</td>\n';
+            trs += '<td><a id="b1" class="btn btn-primary btn-sm" href="/course/choose/' + data[i].c_id + '">选课</a>\n';
+            trs += '<a class="btn btn-primary btn-sm" href="/admin/course/open/' + data[i].c_id + '">开启选课</a>\n';
+            trs += '<a class="btn btn-danger btn-sm" href="/admin/course/shutdown/' + data[i].c_id + '">关闭选课</a>\n';
+            trs += '<a class="btn btn-primary btn-sm" href="/admin/course/course_password/' + data[i].c_id + '">设置选课密码</a>\n';
+            trs += '<a class="btn btn-primary btn-sm" href="/admin/course/homework/' + data[i].c_id + '">作业</a></td>\n';
+            trs += '</tr>';
+        }
+        dom.html(trs)
+    }
+</script>
+</body>
+</html>
