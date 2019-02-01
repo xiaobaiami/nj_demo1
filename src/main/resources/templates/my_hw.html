@@ -43,6 +43,16 @@
                 <label>&nbsp;&nbsp;&nbsp;&nbsp;截止时间：</label>
                 <span th:text="${h.limit_date}"></span>
                 <p th:text="${h.body}"></p>
+                <form hidden="hidden" th:action="@{/homework/submit}" method="post">
+                    <input hidden="hidden" name="c_id" th:value="${c_id}">
+                    <input hidden="hidden" name="h_id" th:value="${h.h_id}">
+                    <textarea cols="150" rows="20" name="answer"></textarea>
+                    <div></div>
+                    <button class="btn btn-secondary btn-primary">提交</button>
+                </form>
+                <p></p>
+                <button class="btn btn-sm btn-warning" onclick="show_hidden(this)">收起</button>
+                <button class="btn btn-sm btn-warning" onclick="show_hidden2(this)">答题</button>
                 <hr>
             </div>
         </main>
@@ -55,7 +65,25 @@
 <script th:src="@{/bootstrap/js/Chart.min.js}"></script>
 <script th:src="@{/bootstrap/js/dashboard.js}"></script>
 <script>
-
+    function show_hidden(dom) {
+        $(dom).prev().prev().attr('hidden','hidden');
+    }
+    function show_hidden2(dom) {
+        $.ajax({
+            url: "/homework_response/",
+            type: "GET",
+            data: {h_id: $(dom).prev().prev().prev().find("input[name='h_id']").val()},
+            timeout: 3000,
+            success: function (data) {
+                $(dom).prev().prev().prev().find("textarea").html(data.toString());
+            },
+            error: function (xhr, errorInfo, ex) {
+                alert("请求失败");
+            },
+            async: true
+        });
+        $(dom).prev().prev().prev().attr('hidden',false);
+    }
 </script>
 </body>
 </html>

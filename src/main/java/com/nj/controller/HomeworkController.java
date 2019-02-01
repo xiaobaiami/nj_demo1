@@ -3,6 +3,7 @@ package com.nj.controller;
 import com.nj.model.Course;
 import com.nj.model.Homework;
 import com.nj.service.CourseService;
+import com.nj.service.HomeworkResponseService;
 import com.nj.service.HomeworkService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,6 +21,8 @@ public class HomeworkController {
     CourseService courseService;
     @Autowired
     HomeworkService homeworkService;
+    @Autowired
+    HomeworkResponseService homeworkResponseService;
 
     @GetMapping("/admin/course/homework/{c_id}")
     public String homework_main(@PathVariable("c_id") Integer c_id, HttpServletRequest request) {
@@ -44,9 +47,17 @@ public class HomeworkController {
 
     @GetMapping("/homework/main")
     public String homework_main2(Integer c_id, HttpServletRequest request) {
-        Integer u_id = (Integer)request.getSession().getAttribute("u_id");
+        Integer u_id = (Integer) request.getSession().getAttribute("u_id");
         List<Homework> hwByCId = homeworkService.findOnesHw(u_id, c_id);
         request.setAttribute("my_hw", hwByCId);
+        request.setAttribute("c_id", c_id);
         return "my_hw";
+    }
+
+    @PostMapping("/homework/submit")
+    public String homework_submit(Integer c_id, Integer h_id, String answer, HttpServletRequest request) {
+        Integer u_id = (Integer) request.getSession().getAttribute("u_id");
+        homeworkResponseService.insertHR(u_id, c_id, h_id, answer);
+        return "redirect:/homework/main?c_id=" + c_id;
     }
 }

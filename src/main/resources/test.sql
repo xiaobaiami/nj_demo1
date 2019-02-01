@@ -73,6 +73,34 @@ INSERT INTO `homework` VALUES (1,4,'test1','asfjiaeflkasjfaefefaefaw',11.0,'2019
 UNLOCK TABLES;
 
 --
+-- Table structure for table `homework_response`
+--
+
+DROP TABLE IF EXISTS `homework_response`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `homework_response` (
+  `hr_id` int(11) NOT NULL AUTO_INCREMENT,
+  `u_id` int(11) DEFAULT NULL,
+  `c_id` int(11) DEFAULT NULL,
+  `h_id` int(11) DEFAULT NULL,
+  `response` varchar(4000) DEFAULT NULL,
+  `create_date` varchar(40) DEFAULT NULL,
+  PRIMARY KEY (`hr_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `homework_response`
+--
+
+LOCK TABLES `homework_response` WRITE;
+/*!40000 ALTER TABLE `homework_response` DISABLE KEYS */;
+INSERT INTO `homework_response` VALUES (1,1,3,3,'sdadwdqwq12332131231231','2019-02-01');
+/*!40000 ALTER TABLE `homework_response` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `user`
 --
 
@@ -85,7 +113,7 @@ CREATE TABLE `user` (
   `password` varchar(40) DEFAULT NULL,
   `type` int(11) DEFAULT NULL,
   PRIMARY KEY (`u_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -131,4 +159,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-02-01  0:30:23
+-- Dump completed on 2019-02-01 21:58:40
